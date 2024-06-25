@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Logo = () => {
   return (
-    <div className='flex flex-row items-center justify-center leading-none text-white' >
+    <div className='flex flex-row items-center md:justify-center justify-start leading-none text-white' >
       {/*<Image*/}
       {/*  src="/logo.svg"*/}
       {/*  width={50}*/}
@@ -14,7 +14,7 @@ const Logo = () => {
       <Link
         key='Home'
         href='/'>
-        <p className="text-2xl font-semibold">ProjectsHub</p>
+        <p className="lg:text-2xl md:text-xl font-semibold">ProjectsHub</p>
       </Link>
     </div>
   );

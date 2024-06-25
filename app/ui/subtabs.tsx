@@ -12,13 +12,12 @@ const Subtabs = ({ tabs, parentPath }: { tabs:string[], parentPath:string }) => 
       <div className="flex grow flex-row justify-between">
         {tabs.map((tab, index) => {
           const link = `/${parentPath}/${tab}`
-          console.log(link)
           return (
             <Link
               key={tab}
               href={link}
               className={clsx(
-                "flex grow items-center justify-center gap-2 p-3 font-medium text-sm hover:bg-gray-400 hover:text-cyan-300",
+                "flex grow items-center justify-center lg:p-3 md:p-2 p-1 font-medium text-sm hover:bg-gray-400 hover:text-cyan-300",
                 {
                   'rounded-l-md': index === 0,
                 },
@@ -30,7 +29,7 @@ const Subtabs = ({ tabs, parentPath }: { tabs:string[], parentPath:string }) => 
                 }
               )}
             >
-              <p className="hidden md:block uppercase">{tab}</p>
+              <p className="uppercase">{tab}</p>
             </Link>
           )
         })}

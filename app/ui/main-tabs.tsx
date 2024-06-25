@@ -9,32 +9,36 @@ const MainTabs = ({ tabs }: { tabs:string[] }) => {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-full flex-row m-4">
-      <div className="w-60 p-4 justify-center items-end rounded-l-md bg-gray-500">
+    <div className="flex h-full md:flex-row flex-col m-4">
+      <div className="lg:w-60 md:w-48 p-4 md:justify-center justify-start items-end md:rounded-l-md md:rounded-r-none rounded-t-md bg-gray-500 border-b border-gray-600">
         <Logo />
       </div>
-      <div className="flex grow flex-row justify-between">
-        {tabs.map((tab) => {
+      <div className="flex grow md:flex-row flex-col justify-between">
+        {tabs.map((tab, index) => {
           const link = `/${tab}`
+          const isLastItem = tabs.length - 1 === index
           return (
             <Link
               key={tab}
               href={link}
               className={clsx(
-                "flex grow items-center justify-center gap-2 p-4 font-medium hover:bg-gray-600 hover:text-cyan-400",
+                "flex grow items-center md:justify-center justify-start lg:p-4 md:p-2 p-1 pl-4 font-medium hover:bg-gray-600 hover:text-cyan-400 md:rounded-b-none",
                 {
                   'bg-gray-600 text-cyan-400': pathname.includes(link),
                 },
                 {
                   'bg-gray-500 text-white': !pathname.includes(link),
+                },
+                {
+                  'rounded-b-md': isLastItem,
                 }
               )}
             >
-              <p className="hidden md:block uppercase">{tab}</p>
+              <p className="uppercase">{tab}</p>
             </Link>
           )
         })}
-        <div className="h-auto w-full grow rounded-r-md bg-gray-500"></div>
+        <div className="hidden md:block h-auto w-full grow rounded-r-md bg-gray-500"></div>
       </div>
     </div>
   );
