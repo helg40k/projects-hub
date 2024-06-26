@@ -2,30 +2,48 @@ import { Project } from './definitions';
 
 const projects:Project[] = [
   {
-    id: '1',
-    code: 'PRJ-21-02',
-    name: 'Project 21-02',
-    manager: 'Super Manager',
-    customer: 'Good Customer',
+    id: 'AT-DWT',
+    code: 'AT-DWT',
+    name: 'Digital Wallet',
+    manager: 'Vlasyslav Vovkodav',
+    customer: 'AT',
+    upwork: true,
+    status: 'green'
+  },
+  {
+    id: 'TN-TNL',
+    code: 'TN-TNL',
+    name: 'TinyUrl',
+    manager: 'Maryna Horielova',
+    customer: 'TinyUrl',
     upwork: false,
     status: 'red'
   },
   {
-    id: '2',
-    code: 'PRJ-65-mln',
-    name: 'Project 65 mln',
-    manager: 'Super Mario Mario',
-    customer: 'Goombas Customer',
+    id: 'ADM-001',
+    code: 'ADM-001',
+    name: 'Adomik',
+    manager: 'Maryna Horielova',
+    customer: 'ADM',
     upwork: true,
-    status: 'amber'
+    status: 'green'
   },
   {
-    id: '3',
-    code: 'PRJ-007',
-    name: 'Project 007',
-    manager: 'Bond Manager',
-    customer: 'Skyfall Customer',
-    upwork: false,
+    id: 'PHR-MDK',
+    code: 'PHR-MDK',
+    name: 'Madicart',
+    manager: 'Serhii Semenchenko',
+    customer: 'PHR',
+    upwork: true,
+    status: 'green'
+  },
+  {
+    id: 'UPW-QWK',
+    code: 'UPW-QWK',
+    name: 'Qwikfone',
+    manager: 'Vlasyslav Vovkodav',
+    customer: 'UPW',
+    upwork: true,
     status: 'green'
   }
 ];
