@@ -72,7 +72,7 @@ const TableComponent = ({ headers, data, loading, onSort, onSelect }: { headers:
   return (
     <table className='rounded-sm mt-1 table-fixed'>
       <thead>
-        <tr className="capitalize">
+        <tr className="uppercase">
           {headers.map((header) => {
             return (
               <th key={header} onClick={handleSortClick}
