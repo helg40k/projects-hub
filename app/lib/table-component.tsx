@@ -7,7 +7,7 @@ import Spin from '@/app/lib/spin'
 import {Presentable} from "@/app/lib/definitions";
 import {NONE_NAME, ASC_DIRECTION, DESC_DIRECTION} from "@/app/lib/constants/sorting";
 
-const Table = ({ headers, data, loading, onSort, onSelect }: { headers:string[], data:Presentable[], loading:boolean, onSort?:Function, onSelect?:Function }) => {
+const TableComponent = ({ headers, data, loading, onSort, onSelect }: { headers:string[], data:Presentable[], loading:boolean, onSort?:Function, onSelect?:Function }) => {
   const [sortBy, setSortBy] = useState('none-none')
 
   const handleRowClick = (event:MouseEvent<HTMLDivElement>, id:string) => {
@@ -16,20 +16,20 @@ const Table = ({ headers, data, loading, onSort, onSelect }: { headers:string[],
     }
   }
 
-  const handleSortClick = (event:MouseEvent<HTMLDivElement>) => {
+  const handleSortClick = (event:MouseEvent<HTMLElement>) => {
     if (onSort) {
       const target = event.target;
 
-      let columnTitleDiv
+      let columnTitleElement
       if (target instanceof SVGPathElement) {
-        columnTitleDiv = target.parentNode?.parentNode as HTMLDivElement;
+        columnTitleElement = target.parentNode?.parentNode as HTMLElement;
       } else if (target instanceof SVGSVGElement) {
-        columnTitleDiv = target.parentNode as HTMLDivElement;
-      } else if (target instanceof HTMLDivElement) {
-        columnTitleDiv = target as HTMLDivElement;
+        columnTitleElement = target.parentNode as HTMLElement;
+      } else if (target instanceof HTMLElement) {
+        columnTitleElement = target as HTMLElement;
       }
 
-      const columnName = columnTitleDiv ? (columnTitleDiv.textContent || NONE_NAME) : NONE_NAME;
+      const columnName = columnTitleElement ? (columnTitleElement.textContent || NONE_NAME) : NONE_NAME;
       const [savedColumnName, direction] = sortBy.split('-');
 
       let sortingKey = 'none-none'
@@ -63,59 +63,57 @@ const Table = ({ headers, data, loading, onSort, onSelect }: { headers:string[],
       return columnName;
     }
     if (ASC_DIRECTION === direction) {
-      return (<>{columnName}<ChevronUpIcon className='w-5' /></>);
+      return (<div className='flex flex-row justify-center'>{columnName}<ChevronUpIcon className='w-5' /></div>);
     } else if (DESC_DIRECTION === direction) {
-      return (<>{columnName}<ChevronDownIcon className='w-5' /></>);
+      return (<div className='flex flex-row justify-center'>{columnName}<ChevronDownIcon className='w-5' /></div>);
     }
     return columnName;
   }
 
   return (
-    <div className='rounded-sm border-2 mt-1'>
-      <div className="flex flex-row text-center capitalize bg-gray-200 border-b-[1px] border-gray-300">
-        {headers.map((header, index) => {
-          const isLastColumn = headers.length - 1 === index
+    <table className='rounded-sm border-collapse border-2 mt-1 table-fixed'>
+      <thead>
+        <tr className="capitalize bg-gray-200 border-gray-300">
+          {headers.map((header) => {
+            return (
+              <th key={header} onClick={handleSortClick}
+                  className='p-2 border border-gray-300 active:bg-gray-300' >
+                {getColumnTitle(header)}
+              </th>
+            )
+          })}
+        </tr>
+      </thead>
+      <tbody>
+        {!loading && data.map((row) => {
           return (
-            <div key={header} onClick={handleSortClick} className={clsx(
-              'basis-1/6 p-2 flex flex-row justify-center active:bg-gray-300',
-              {
-                'border-r-[1px] border-gray-300': !isLastColumn
-              }
-            )}>
-              {getColumnTitle(header)}
-            </div>
-          )
-        })}
-      </div>
-      {!loading && data.map((row) => {
-        return (
-          <div key={row.id} className='truncate py-2 even:bg-white odd:bg-gray-100 hover:bg-sky-50 active:bg-sky-100'>
-            <div className="flex flex-row text-left" onClick={(event) => (handleRowClick(event, row.id))}>
+            <tr key={row.id} className='text-left truncate odd:bg-white even:bg-gray-100 hover:bg-sky-50 active:bg-sky-100'
+                onClick={(event) => (handleRowClick(event, row.id))}>
               {headers.map((header) => {
                 const content = (row as any)[header];
                 const isBoolean = typeof content === 'boolean';
                 return (
-                  <div key={`${header}-${row.id}`} className={clsx(
-                    'basis-1/6 px-3',
+                  <td key={`${header}-${row.id}`} className={clsx(
+                    'py-2 px-3',
                     {
                       'flex justify-center items-center': isBoolean
                     }
                   )}>
                     {isBoolean
                       ? content
-                        ? <CheckIcon className='w-5 h-5 border-[1px] rounded-xl text-white bg-green-600 border-green-600' />
-                        : <XMarkIcon className='w-5 h-5 border-[1px] rounded-xl text-white bg-red-600 border-red-600' />
+                        ? <CheckIcon className='w-5 h-5 border rounded-xl text-white bg-green-600 border-green-600' />
+                        : <XMarkIcon className='w-5 h-5 border rounded-xl text-white bg-red-600 border-red-600' />
                       : content}
-                  </div>
+                  </td>
                 )
               })}
-            </div>
-          </div>
-        )
-      })}
-      {loading && (<Spin />)}
-    </div>
+            </tr>
+          )
+        })}
+        {loading && (<tr><td><Spin /></td></tr>)}
+      </tbody>
+    </table>
   )
 }
 
-export default Table
+export default TableComponent

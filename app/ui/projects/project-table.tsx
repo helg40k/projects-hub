@@ -1,7 +1,7 @@
 'use client';
 
 import useFetchProjects from "@/app/lib/hooks/use-fetch-projects";
-import Table from "@/app/lib/table";
+import TableComponent from "@/app/lib/table-component";
 import {useState} from "react";
 import { useRouter } from 'next/navigation'
 
@@ -21,7 +21,7 @@ const ProjectTable = () => {
   }
 
   return (
-    <Table headers={headers} data={projects} loading={loading} onSort={handleSort} onSelect={handleSelect} />
+    <TableComponent headers={headers} data={projects} loading={loading} onSort={handleSort} onSelect={handleSelect} />
   )
 }
 

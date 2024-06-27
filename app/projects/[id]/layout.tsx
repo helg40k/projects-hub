@@ -2,7 +2,7 @@
 
 import Subtabs from '@/app/ui/subtabs';
 
-const tabs = ['team', 'info', 'documents', 'logs']
+const tabs = ['info', 'team', 'documents', 'logs']
 
 export default function Layout({ params, children }: { params:{ id:string }, children: React.ReactNode }) {
   const id = params.id;
