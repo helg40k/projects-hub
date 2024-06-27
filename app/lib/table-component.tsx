@@ -2,7 +2,6 @@
 
 import {CheckIcon, XMarkIcon, ChevronUpIcon, ChevronDownIcon} from '@heroicons/react/24/outline';
 import {MouseEvent, useState} from "react";
-import clsx from 'clsx';
 import Spin from '@/app/lib/spin'
 import {Presentable} from "@/app/lib/definitions";
 import {NONE_NAME, ASC_DIRECTION, DESC_DIRECTION} from "@/app/lib/constants/sorting";
@@ -63,21 +62,21 @@ const TableComponent = ({ headers, data, loading, onSort, onSelect }: { headers:
       return columnName;
     }
     if (ASC_DIRECTION === direction) {
-      return (<div className='flex flex-row justify-center'>{columnName}<ChevronUpIcon className='w-5' /></div>);
+      return (<div className='flex flex-row'>{columnName}<ChevronUpIcon className='w-5' /></div>);
     } else if (DESC_DIRECTION === direction) {
-      return (<div className='flex flex-row justify-center'>{columnName}<ChevronDownIcon className='w-5' /></div>);
+      return (<div className='flex flex-row'>{columnName}<ChevronDownIcon className='w-5' /></div>);
     }
     return columnName;
   }
 
   return (
-    <table className='rounded-sm border-collapse border-2 mt-1 table-fixed'>
+    <table className='rounded-sm mt-1 table-fixed'>
       <thead>
-        <tr className="capitalize bg-gray-200 border-gray-300">
+        <tr className="capitalize">
           {headers.map((header) => {
             return (
               <th key={header} onClick={handleSortClick}
-                  className='p-2 border border-gray-300 active:bg-gray-300' >
+                  className='text-left py-2 px-3 border-b border-gray-300 active:bg-gray-200' >
                 {getColumnTitle(header)}
               </th>
             )
@@ -87,18 +86,13 @@ const TableComponent = ({ headers, data, loading, onSort, onSelect }: { headers:
       <tbody>
         {!loading && data.map((row) => {
           return (
-            <tr key={row.id} className='text-left truncate odd:bg-white even:bg-gray-100 hover:bg-sky-50 active:bg-sky-100'
+            <tr key={row.id} className='text-left truncate border-b border-gray-100 hover:bg-sky-50 active:bg-sky-100'
                 onClick={(event) => (handleRowClick(event, row.id))}>
               {headers.map((header) => {
                 const content = (row as any)[header];
                 const isBoolean = typeof content === 'boolean';
                 return (
-                  <td key={`${header}-${row.id}`} className={clsx(
-                    'py-2 px-3',
-                    {
-                      'flex justify-center items-center': isBoolean
-                    }
-                  )}>
+                  <td key={`${header}-${row.id}`} className='py-2 px-3' >
                     {isBoolean
                       ? content
                         ? <CheckIcon className='w-5 h-5 border rounded-xl text-white bg-green-600 border-green-600' />
@@ -110,8 +104,12 @@ const TableComponent = ({ headers, data, loading, onSort, onSelect }: { headers:
             </tr>
           )
         })}
-        {loading && (<tr><td><Spin /></td></tr>)}
       </tbody>
+      {loading && (
+        <tfoot>
+          <tr><td colSpan={headers.length} className='border-b' ><Spin /></td></tr>
+        </tfoot>
+      )}
     </table>
   )
 }
