@@ -17,6 +17,7 @@ const MainTabs = ({ tabs }: { tabs:string[] }) => {
         {tabs.map((tab, index) => {
           const link = `/${tab}`
           const isLastItem = tabs.length - 1 === index
+          const isSelected = pathname === link || pathname.includes(`${link}/`)
           return (
             <Link
               key={tab}
@@ -24,10 +25,10 @@ const MainTabs = ({ tabs }: { tabs:string[] }) => {
               className={clsx(
                 "flex grow items-center md:justify-center justify-start lg:p-4 md:p-2 p-1 pl-4 font-medium hover:bg-gray-600 hover:text-cyan-400 md:rounded-b-none",
                 {
-                  'bg-gray-600 text-cyan-400': pathname.includes(link),
+                  'bg-gray-600 text-cyan-400': isSelected,
                 },
                 {
-                  'bg-gray-500 text-white': !pathname.includes(link),
+                  'bg-gray-500 text-white': !isSelected,
                 },
                 {
                   'rounded-b-md': isLastItem,
