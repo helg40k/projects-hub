@@ -22,10 +22,10 @@ const Subtabs = ({ tabs, parentPath }: { tabs:string[], parentPath:string }) => 
                   'rounded-l-md': index === 0,
                 },
                 {
-                  'bg-gray-400 text-cyan-300': pathname.includes(tab),
+                  'bg-gray-400 text-cyan-300': pathname?.includes(tab),
                 },
                 {
-                  'bg-gray-300 text-gray-700': !pathname.includes(tab),
+                  'bg-gray-300 text-gray-700': !pathname?.includes(tab),
                 }
               )}
             >
