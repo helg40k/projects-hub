@@ -1,9 +1,6 @@
 import "@/app/ui/globals.css";
 import { inter } from '@/app/ui/fonts';
 import type { Metadata } from "next";
-import MainTabs from '@/app/ui/main-tabs';
-
-const tabs = ['projects', 'opportunities', 'customers', 'documents']
 
 export const metadata: Metadata = {
   title: "ProjectsHub",
@@ -17,8 +14,7 @@ const RootLayout = ({
   return (
     <html lang="en">
     <body className={`${inter.className} antialiased`}>
-      <MainTabs tabs={tabs} />
-      <main className="flex min-h-screen flex-col m-4">
+      <main className="flex min-h-screen flex-col">
         {children}
       </main>
     </body>

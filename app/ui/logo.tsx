@@ -11,11 +11,7 @@ const Logo = () => {
       {/*  className="hidden md:block"*/}
       {/*  alt="Logo"*/}
       {/*/>*/}
-      <Link
-        key='Home'
-        href='/'>
-        <p className="lg:text-2xl md:text-xl font-semibold">ProjectsHub</p>
-      </Link>
+      <p className="lg:text-2xl md:text-xl font-semibold">ProjectsHub</p>
     </div>
   );
 }
