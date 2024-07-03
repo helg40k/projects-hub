@@ -1,10 +1,12 @@
 // import Image from "next/image";
 import Logo from '@/app/ui/logo';
 import Link from "next/link";
+import GoogleSignInButton from '@/app/ui/google-signin-button'
 
 const Home = () => {
   return (
     <main className="flex min-h-screen flex-col p-6">
+      <GoogleSignInButton>LOGIN</GoogleSignInButton>
       {/*<div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-16">*/}
       {/*  <Logo/>*/}
       {/*</div>*/}
