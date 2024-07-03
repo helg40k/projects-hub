@@ -17,7 +17,7 @@ const MainTabs = ({ tabs }: { tabs:string[] }) => {
         {tabs.map((tab, index) => {
           const link = `/${tab}`
           const isLastItem = tabs.length - 1 === index
-          const isSelected = pathname === link || pathname.includes(`${link}/`)
+          const isSelected = pathname === link || pathname?.includes(`${link}/`)
           return (
             <Link
               key={tab}
