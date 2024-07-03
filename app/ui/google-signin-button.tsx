@@ -5,12 +5,11 @@ import { signIn } from 'next-auth/react';
 
 interface GoogleSignInButtonProps {
   children?: ReactNode;
-  callbackAuthUrl: string;
 }
 
 
-const GoogleSignInButton:FC<GoogleSignInButtonProps> = ({ children, callbackAuthUrl }) => {
-  const loginWithGoogle = () => signIn('google', {callbackUrl: callbackAuthUrl})
+const GoogleSignInButton:FC<GoogleSignInButtonProps> = ({ children }) => {
+  const loginWithGoogle = () => signIn('google')
 
   return (
     <button onClick={loginWithGoogle} className='w-full bg-amber-200'>
