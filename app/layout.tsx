@@ -1,6 +1,9 @@
 import "@/app/ui/globals.css";
 import { inter } from '@/app/ui/fonts';
+import {ReactNode} from "react";
 import type { Metadata } from "next";
+import MainTabs from '@/app/ui/main-tabs';
+import { MAIN_TABS } from '@/app/lib/constants/tab-menu';
 
 export const metadata: Metadata = {
   title: "ProjectsHub",
@@ -9,12 +12,13 @@ export const metadata: Metadata = {
 
 const RootLayout = ({
                       children,
-                    }: Readonly<{children: React.ReactNode}>) => {
+                    }: Readonly<{children: ReactNode}>) => {
 
   return (
     <html lang="en">
     <body className={`${inter.className} antialiased`}>
-      <main className="flex min-h-screen flex-col">
+      <MainTabs tabs={MAIN_TABS} />
+      <main className="flex min-h-screen flex-col m-4">
         {children}
       </main>
     </body>
