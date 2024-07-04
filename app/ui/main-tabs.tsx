@@ -13,7 +13,7 @@ const MainTabs = ({ tabs }: { tabs:string[] }) => {
     <div className="flex h-full md:flex-row flex-col m-4">
       {isRootPage ? (
         <>
-          <div className="lg:w-60 md:w-48 p-4 md:justify-center justify-start items-end md:rounded-l-md md:rounded-r-none rounded-t-md bg-gray-500 border-b border-gray-600">
+          <div className="lg:w-60 md:w-48 md:justify-center justify-start items-end md:rounded-l-md md:rounded-r-none rounded-t-md bg-gray-500 border-b border-gray-600">
             <Logo/>
           </div>
           <div className="flex grow md:flex-row flex-col justify-between">
