@@ -22,11 +22,14 @@ const MainTabs = ({ tabs }: { tabs:string[] }) => {
         </>
       ) : (
         <>
-          <div className="lg:w-60 md:w-48 p-4 md:justify-center justify-start items-end md:rounded-l-md md:rounded-r-none rounded-t-md bg-gray-500 border-b border-gray-600">
+          <div
+            className="flex lg:w-60 md:w-48 md:justify-center justify-start md:rounded-l-md md:rounded-r-none rounded-t-md bg-gray-500 border-b border-gray-600">
             <Logo/>
+            <div className="md:hidden block h-auto w-full bg-gray-500"/>
+            <div className="md:hidden block h-12 min-w-24 rounded-r-md rounded-b-none bg-gray-200"/>
           </div>
           <div className="flex grow md:flex-row flex-col justify-between">
-            {tabs.map((tab, index) => {
+          {tabs.map((tab, index) => {
               const link = `/${tab}`
               const isLastItem = tabs.length - 1 === index
               const isSelected = pathname === link || pathname?.includes(`${link}/`)
@@ -51,7 +54,8 @@ const MainTabs = ({ tabs }: { tabs:string[] }) => {
                 </Link>
               )
             })}
-            <div className="hidden md:block h-auto w-full grow rounded-r-md bg-gray-500"></div>
+            <div className="hidden md:block h-auto w-full grow bg-gray-500" />
+            <div className="hidden md:block h-auto min-w-24 grow rounded-r-md bg-gray-200" />
           </div>
         </>
       )}

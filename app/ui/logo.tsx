@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Logo = () => {
   return (
-    <div className='flex flex-row items-center md:justify-center justify-start leading-none text-white' >
+    <div className='flex flex-row p-4 items-center md:justify-center justify-start leading-none text-white' >
       {/*<Image*/}
       {/*  src="/logo.svg"*/}
       {/*  width={50}*/}
