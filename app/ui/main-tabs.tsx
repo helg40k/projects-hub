@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Logo from '@/app/ui/logo';
-import AuthUserInfo from '@/app/ui/auth-user-info';
+import AccountMenu from '@/app/ui/account-menu';
 import clsx from 'clsx';
 
 const MainTabs = ({ tabs }: { tabs:string[] }) => {
@@ -28,7 +28,7 @@ const MainTabs = ({ tabs }: { tabs:string[] }) => {
             <Logo/>
             <div className="md:hidden block h-auto w-full bg-gray-500"/>
             <div className="md:hidden flex h-12 min-w-24 rounded-r-md rounded-b-none bg-gray-500 justify-end">
-              <AuthUserInfo />
+              <AccountMenu />
             </div>
           </div>
           <div className="flex grow md:flex-row flex-col justify-between">
@@ -59,7 +59,7 @@ const MainTabs = ({ tabs }: { tabs:string[] }) => {
             })}
             <div className="hidden md:block h-auto w-full grow bg-gray-500" />
             <div className="hidden md:flex h-auto min-w-24 grow rounded-r-md bg-gray-500 justify-end">
-              <AuthUserInfo />
+              <AccountMenu />
             </div>
           </div>
         </>
