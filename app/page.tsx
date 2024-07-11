@@ -3,10 +3,16 @@ import Logo from '@/app/ui/logo';
 import Link from "next/link";
 import LoginForm from '@/app/ui/login-form'
 
-const Home = () => {
+type Props = {
+  searchParams: {
+    error?: string,
+  },
+};
+
+const Home = ({ searchParams }: Props) => {
   return (
     <main className="flex min-h-screen flex-col p-6">
-      <LoginForm />
+      <LoginForm paramError={searchParams?.error} />
       {/*<div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-16">*/}
       {/*  <Logo/>*/}
       {/*</div>*/}

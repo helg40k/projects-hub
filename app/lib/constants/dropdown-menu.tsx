@@ -1,17 +1,19 @@
 import {LinkIcon, ArrowRightEndOnRectangleIcon, UserIcon, PowerIcon} from '@heroicons/react/24/outline';
+import { signOut } from 'next-auth/react';
 
 export interface MenuItem {
   title: string;
   icon?: typeof LinkIcon;
   route?: string;
   children?: MenuItem[];
+  handleClick?: Function;
 }
 
 const ACCOUNT_MENU: MenuItem[] = [
   {
     title: "Log out",
     icon: PowerIcon,
-    route: "/",
+    handleClick: () => signOut({ callbackUrl: '/' }),
   }
 ]
 

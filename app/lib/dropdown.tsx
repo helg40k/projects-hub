@@ -55,10 +55,15 @@ const Dropdown = ({ items, icon, children }:{ items:MenuItem[], icon?:typeof Lin
                 </div>
               ) : (
                 <Link
-                  key={item.route}
+                  key={item.route || `link-${itemTitle}`}
                   className="grid grid-flow-col auto-cols-max gap-1 items-center hover:bg-gray-400 hover:text-cyan-300 px-3 py-1 whitespace-nowrap"
-                  href={item?.route || ''}
-                  onClick={toggle}
+                  href={item.route || ''}
+                  onClick={() => {
+                    toggle();
+                    if (item.handleClick) {
+                      item.handleClick();
+                    }
+                  }}
                 >
                   {LinkIcon && (
                     <LinkIcon className='w-5 h-5' />
