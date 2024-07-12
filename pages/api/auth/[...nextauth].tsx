@@ -30,19 +30,6 @@ export default NextAuth( {
         }
       }
       return true;
-    },
-    // async redirect({ url, baseUrl }) {
-    //   console.log(`= REDIRECT = ${url}`);
-    //   return url;
-    //   // return `${baseUrl}/projects`;
-    // },
-    async session({ session, token, user }) {
-      console.log('= SESSION =');
-      return session;
-    },
-    async jwt({token, user, account, profile, trigger, session}) {
-      console.log('= JWT =');
-      return token;
     }
   },
   logger: {
