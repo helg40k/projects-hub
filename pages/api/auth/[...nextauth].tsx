@@ -18,10 +18,17 @@ export default NextAuth( {
   secret: process.env.NEXTAUTH_SECRET!,
   callbacks: {
     async signIn({user, account, profile}) {
-      console.log('= SIGN_IN =');
-      // console.log('User signed in:', user);
-      // console.log('Account:', account);
-      // console.log('Profile:', profile);
+      const email = user?.email;
+      if (!email) {
+        return false;
+      }
+      const allowedAuthUserDomain = process.env.ALLOWED_AUTH_USER_DOMAIN;
+      const authEmailsWhiteList = process.env.AUTH_EMAILS_WHITE_LIST;
+      if (allowedAuthUserDomain) {
+        if (!email.endsWith(allowedAuthUserDomain) && authEmailsWhiteList) {
+          return authEmailsWhiteList.includes(email);
+        }
+      }
       return true;
     },
     // async redirect({ url, baseUrl }) {
