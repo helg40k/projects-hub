@@ -1,8 +1,8 @@
 import { Project } from './definitions';
 
-const projects:Project[] = [
+const projects = [
   {
-    id: 'AT-DWT',
+    _id: 'AT-DWT',
     code: 'AT-DWT',
     name: 'Digital Wallet',
     manager: 'Vlasyslav Vovkodav',
@@ -11,7 +11,7 @@ const projects:Project[] = [
     status: 'green'
   },
   {
-    id: 'TN-TNL',
+    _id: 'TN-TNL',
     code: 'TN-TNL',
     name: 'TinyUrl',
     manager: 'Maryna Horielova',
@@ -20,7 +20,7 @@ const projects:Project[] = [
     status: 'red'
   },
   {
-    id: 'ADM-001',
+    _id: 'ADM-001',
     code: 'ADM-001',
     name: 'Adomik',
     manager: 'Maryna Horielova',
@@ -29,7 +29,7 @@ const projects:Project[] = [
     status: 'green'
   },
   {
-    id: 'PHR-MDK',
+    _id: 'PHR-MDK',
     code: 'PHR-MDK',
     name: 'Madicart',
     manager: 'Serhii Semenchenko',
@@ -38,7 +38,7 @@ const projects:Project[] = [
     status: 'green'
   },
   {
-    id: 'UPW-QWK',
+    _id: 'UPW-QWK',
     code: 'UPW-QWK',
     name: 'Qwikfone',
     manager: 'Vlasyslav Vovkodav',

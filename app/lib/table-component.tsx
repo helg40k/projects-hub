@@ -86,13 +86,13 @@ const TableComponent = ({ headers, data, loading, onSort, onSelect }: { headers:
       <tbody>
         {!loading && data.map((row) => {
           return (
-            <tr key={row.id} className='text-left truncate border-b border-gray-100 hover:bg-sky-50 active:bg-sky-100'
-                onClick={(event) => (handleRowClick(event, row.id))}>
+            <tr key={row._id} className='text-left truncate border-b border-gray-100 hover:bg-sky-50 active:bg-sky-100'
+                onClick={(event) => (handleRowClick(event, row._id))}>
               {headers.map((header) => {
                 const content = (row as any)[header];
                 const isBoolean = typeof content === 'boolean';
                 return (
-                  <td key={`${header}-${row.id}`} className='py-2 px-3' >
+                  <td key={`${header}-${row._id}`} className='py-2 px-3' >
                     {isBoolean
                       ? content
                         ? <CheckIcon className='w-5 h-5 border rounded-xl text-white bg-green-600 border-green-600' />

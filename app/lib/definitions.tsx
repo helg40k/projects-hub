@@ -1,5 +1,5 @@
 export interface Presentable {
-  id: string
+  _id: string
 }
 
 export interface Project extends Presentable {
@@ -8,5 +8,21 @@ export interface Project extends Presentable {
   manager: string;
   customer: string;
   upwork: boolean;
-  status: 'red' | 'amber' | 'green';
+  statusId: string;
+}
+
+export interface Team extends Presentable {
+  teamLeadId: string
+}
+
+export interface Employee extends Presentable {
+  fullName: string
+}
+
+export interface ProjectStatus extends Presentable {
+  actions: string;
+  projectId: string;
+  rag: 'RED' | 'AMBER' | 'GREEN';
+  reporterId: string;
+  status: string;
 }
