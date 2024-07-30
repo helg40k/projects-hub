@@ -19,7 +19,7 @@ const ProjectStatus = ({ project }:{project:Project|null}) => {
 
   const projectCode = project?.code ? ` (${project.code})` : '';
   const projectName = project ? `${project.name}${projectCode}` : 'unknown';
-  const projectLink = projectUrl && project ? `${employeeUrl}/${project._idNative}` : null;
+  const projectLink = projectUrl && project ? `${projectUrl}/${project._idNative}` : null;
   const ragColor = projectStatus?.rag ? projectStatus.rag : NA;
   const rag = NA === ragColor ? NA : ragColor.toLowerCase();
   const reporter = employee?.fullName ? employee.fullName : 'unknown';
