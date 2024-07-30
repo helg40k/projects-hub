@@ -1,8 +1,17 @@
+import firebase from 'firebase/compat/app';
+
+export declare type RagStatus = 'N/A' | 'RED' | 'AMBER' | 'GREEN';
+
 export interface Presentable {
-  _id: string
+  _id: string;
+  _createdAt: firebase.firestore.Timestamp;
+  _updatedAt: firebase.firestore.Timestamp;
+  _updatedBy: string;
+  _isUpdated: boolean;
 }
 
 export interface Project extends Presentable {
+  _idNative: string;
   code: string;
   name: string;
   manager: string;
@@ -12,17 +21,19 @@ export interface Project extends Presentable {
 }
 
 export interface Team extends Presentable {
-  teamLeadId: string
+  _idNative: string;
+  teamLeadId: string;
 }
 
 export interface Employee extends Presentable {
-  fullName: string
+  _idNative: string;
+  fullName: string;
 }
 
 export interface ProjectStatus extends Presentable {
   actions: string;
   projectId: string;
-  rag: 'RED' | 'AMBER' | 'GREEN';
+  rag: RagStatus;
   reporterId: string;
   status: string;
 }

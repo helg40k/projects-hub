@@ -3,35 +3,33 @@ import firestore from '@/app/lib/services/firebase/utils/firestore'
 import {
   doc,
   onSnapshot,
-  WhereFilterOp,
   DocumentData
 } from 'firebase/firestore';
 
 type Props = {
-  ref: string,
-  where?: Array<[string, WhereFilterOp, any]>
+  ref: string
 };
 
 const useListenDocument = (props:Props) => {
-  const [value, setValue] = useState<DocumentData>()
-  const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<Error>()
+  const [value, setValue] = useState<DocumentData>();
+  const [loading, setLoading] = useState<boolean>(!!props.ref);
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
     try {
       const unsubscribe = onSnapshot(doc(firestore, props.ref), (doc) => {
-        setValue(doc.data())
-        setLoading(false)
+        setValue(doc.data());
+        setLoading(false);
       })
       return () => {
-        unsubscribe?.()
+        unsubscribe?.();
       }
     } catch (err:any) {
       setError(err);
     }
-  }, [props.ref])
+  }, [props.ref]);
 
-  return [value, loading, error]
+  return [value, loading, error];
 };
 
 export default useListenDocument;

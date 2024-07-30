@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import {OrderByDirection} from "firebase/firestore";
-import COLLECTIONS from '@/app/lib/constants/collections';
+import {PROJECTS} from '@/app/lib/constants/collections';
 import useCollection from '@/app/lib/services/firebase/hooks/use-collection';
 import { Project } from "@/app/lib/definitions";
 import {NONE_NAME, ASC_DIRECTION, DESC_DIRECTION} from "@/app/lib/constants/sorting";
@@ -16,12 +16,12 @@ const useFetchProjects = (sortBy:string|null): [Project[], boolean, Error|undefi
 
   const query = useMemo(
     () => ({
-      ref: COLLECTIONS.PROJECTS,
+      ref: PROJECTS,
       // orderBy: orderBy && orderBy[0] === 'name' ? orderBy : null
       orderBy: orderBy
     }),
     [orderBy]
-  )
+  );
 
   /* Getting collection data */
   const [value, loading, error, next, loadingMore, loadMoreAvailable] =
