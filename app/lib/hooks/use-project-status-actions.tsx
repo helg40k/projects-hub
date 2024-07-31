@@ -10,7 +10,6 @@ const useProjectStatusActions = (projectId:string|undefined) => {
   const [error, setError] = useState<Error>();
 
   const { userId } = useUser();
-  console.log('UserID: ' + userId);
 
   const saveProjectStatus = async (projectStatusId:string|undefined, projectStatus: ProjectStatus): Promise<void> => {
     try {
