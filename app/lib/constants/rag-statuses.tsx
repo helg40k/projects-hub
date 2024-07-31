@@ -1,4 +1,4 @@
-import {RagStatus} from "@/app/lib/definitions";
+import {RagStatus} from "@/app/lib/constants/definitions";
 
 export const NA:RagStatus = 'N/A';
 export const RED:RagStatus = 'RED';

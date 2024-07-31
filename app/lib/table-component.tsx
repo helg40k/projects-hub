@@ -3,7 +3,7 @@
 import {CheckIcon, XMarkIcon, ChevronUpIcon, ChevronDownIcon} from '@heroicons/react/24/outline';
 import {MouseEvent, useState} from "react";
 import Spin from '@/app/lib/spin'
-import {Presentable} from "@/app/lib/definitions";
+import {Presentable} from "@/app/lib/constants/definitions";
 import {NONE_NAME, ASC_DIRECTION, DESC_DIRECTION} from "@/app/lib/constants/sorting";
 
 const TableComponent = ({ headers, data, loading, onSort, onSelect }: { headers:string[], data:Presentable[], loading:boolean, onSort?:Function, onSelect?:Function }) => {

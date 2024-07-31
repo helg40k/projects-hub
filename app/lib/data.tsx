@@ -1,4 +1,4 @@
-import { Project } from './definitions';
+import { Project } from './constants/definitions';
 import { projects } from './placeholder-data';
 import { unstable_noStore as noStore } from 'next/cache';
 import {NONE_NAME, ASC_DIRECTION, DESC_DIRECTION} from "@/app/lib/constants/sorting";

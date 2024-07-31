@@ -10,8 +10,11 @@ export interface Presentable {
   _isUpdated: boolean;
 }
 
-export interface Project extends Presentable {
+export interface RemotePresentable extends Presentable {
   _idNative: string;
+}
+
+export interface Project extends RemotePresentable {
   code: string;
   name: string;
   manager: string;
@@ -20,14 +23,12 @@ export interface Project extends Presentable {
   statusId: string;
 }
 
-export interface Team extends Presentable {
-  _idNative: string;
-  teamLeadId: string;
+export interface Employee extends RemotePresentable {
+  fullName: string;
 }
 
-export interface Employee extends Presentable {
-  _idNative: string;
-  fullName: string;
+export interface Team extends Presentable {
+  teamLeadId: string;
 }
 
 export interface ProjectStatus extends Presentable {

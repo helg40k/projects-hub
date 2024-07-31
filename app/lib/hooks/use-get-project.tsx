@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Project } from "@/app/lib/definitions";
+import { Project } from "@/app/lib/constants/definitions";
 import useListenDocument from '@/app/lib/services/firebase/hooks/use-listen-document';
 import {PROJECTS} from "@/app/lib/constants/collections";
 

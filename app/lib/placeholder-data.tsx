@@ -1,4 +1,4 @@
-import { Project } from './definitions';
+import { Project } from './constants/definitions';
 
 const projects = [
   {

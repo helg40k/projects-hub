@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import {OrderByDirection} from "firebase/firestore";
 import {PROJECTS} from '@/app/lib/constants/collections';
 import useCollection from '@/app/lib/services/firebase/hooks/use-collection';
-import { Project } from "@/app/lib/definitions";
+import { Project } from "@/app/lib/constants/definitions";
 import {NONE_NAME, ASC_DIRECTION, DESC_DIRECTION} from "@/app/lib/constants/sorting";
 
 // import { fetchProjects } from '@/app/lib/data';

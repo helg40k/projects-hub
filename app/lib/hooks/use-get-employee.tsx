@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Employee } from "@/app/lib/definitions";
+import { Employee } from "@/app/lib/constants/definitions";
 import useListenDocument from '@/app/lib/services/firebase/hooks/use-listen-document';
 import {EMPLOYEES} from "@/app/lib/constants/collections";
 
