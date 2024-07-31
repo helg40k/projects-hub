@@ -39,6 +39,7 @@ const useUser = () => {
         }
         setUserId(employees[0].id);
       } catch (error: any) {
+        console.error(error);
         setError(error);
       } finally {
         setLoading(false);

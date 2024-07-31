@@ -10,10 +10,12 @@ const useProjectStatusActions = (projectId:string|undefined) => {
   const [error, setError] = useState<Error>();
 
   const { userId } = useUser();
+  console.log('UserID: ' + userId);
 
   const saveProjectStatus = async (projectStatusId:string|undefined, projectStatus: ProjectStatus): Promise<void> => {
     try {
       setLoading(true);
+      console.log('Saving: ' + projectStatusId);
 
       if (projectId) {
         projectStatus.projectId = projectId;
@@ -38,6 +40,7 @@ const useProjectStatusActions = (projectId:string|undefined) => {
         await updateDocument(PROJECTS, projectId as string, { statusId: currentProjectStatusId, _updatedBy: userId });
       }
     } catch (error:any) {
+      console.error(error);
       setError(error);
     } finally {
       setLoading(false);
