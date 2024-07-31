@@ -1,4 +1,4 @@
-import { doc, updateDoc } from 'firebase/firestore';
+import {doc, updateDoc, serverTimestamp, getDoc, DocumentData} from 'firebase/firestore';
 
 import firestore from '@/app/lib/services/firebase/utils/firestore';
 // import { LOG_TYPES } from '__constants__'
@@ -11,12 +11,18 @@ import firestore from '@/app/lib/services/firebase/utils/firestore';
  * @param data - The data to be updated.
  * @returns A promise that resolves to the data that was updated.
  */
-const updateDocument = async (collectionPath:string, id:string, data:object):Promise<object> => {
+const updateDocument = async (collectionPath:string, id:string, data:object):Promise<DocumentData|undefined> => {
   const ref = doc(firestore, collectionPath, id);
-  await updateDoc(ref, data);
+  const payload = {
+    _updatedAt: serverTimestamp(),
+    _isUpdated: true,
+    ...data
+  };
+  await updateDoc(ref, payload);
   // createLog(LOG_TYPES.UPDATE, collectionPath, { ...data, _id })
 
-  return { ...data, _id: id }; // FIXME change the object
+  const docSnapshot = await getDoc(ref);
+  return docSnapshot.data();
 }
 
 export default updateDocument;

@@ -6,7 +6,8 @@ export interface Presentable {
   _id: string;
   _createdAt: firebase.firestore.Timestamp;
   _updatedAt: firebase.firestore.Timestamp;
-  _updatedBy: string;
+  _createdBy: string;
+  _updatedBy?: string;
   _isUpdated: boolean;
 }
 
@@ -15,12 +16,12 @@ export interface RemotePresentable extends Presentable {
 }
 
 export interface Project extends RemotePresentable {
-  code: string;
+  code?: string;
   name: string;
-  manager: string;
-  customer: string;
-  upwork: boolean;
-  statusId: string;
+  manager?: string;
+  customer?: string;
+  upwork?: boolean;
+  statusId?: string;
 }
 
 export interface Employee extends RemotePresentable {
@@ -32,9 +33,9 @@ export interface Team extends Presentable {
 }
 
 export interface ProjectStatus extends Presentable {
-  actions: string;
+  actions?: string;
   projectId: string;
-  rag: RagStatus;
+  rag?: RagStatus;
   reporterId: string;
-  status: string;
+  status?: string;
 }

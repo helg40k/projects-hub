@@ -4,20 +4,24 @@ import {ClipboardDocumentListIcon} from '@heroicons/react/24/outline';
 import Spin from '@/app/lib/spin';
 import useGetProjectStatus from "@/app/lib/hooks/use-get-project-status";
 import useGetEmployee from "@/app/lib/hooks/use-get-employee";
-import {Project} from "@/app/lib/constants/definitions";
+import useProjectStatusActions from "@/app/lib/hooks/use-project-status-actions";
+import {Project, ProjectStatus, RagStatus} from "@/app/lib/constants/definitions";
 import {NA, RED, GREEN, AMBER} from "@/app/lib/constants/rag-statuses";
 import moment from "moment";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Textarea} from "@nextui-org/react";
-import { useMemo, useState } from 'react';
+import { useMemo, useState, FocusEvent } from 'react';
 
 type TaVariant = 'faded' | 'bordered';
 
-const ProjectStatus = ({ project }:{project:Project|null}) => {
+const ProjectStatusPane = ({ project }:{project:Project|null}) => {
   const [statusVariant, setStatusVariant] = useState<TaVariant>('bordered');
   const [actionsVariant, setActionsVariant] = useState<TaVariant>('bordered');
+  const [ragValue, setRagValue] = useState<RagStatus|undefined>();
 
   const [projectStatus, loadingProjectStatus, errorProjectStatus] = useGetProjectStatus(project?.statusId);
   const [employee, loadingEmployee, errorEmployee] = useGetEmployee(projectStatus?.reporterId);
+
+  const { saveProjectStatus } = useProjectStatusActions(project?._id);
 
   const projectUrl = useMemo(() => {
     return process.env.NEXT_PUBLIC_PEOPLE_FORCE_PROJECT_URL;
@@ -25,6 +29,10 @@ const ProjectStatus = ({ project }:{project:Project|null}) => {
   const employeeUrl = useMemo(() => {
     return process.env.NEXT_PUBLIC_PEOPLE_FORCE_EMPLOYEE_URL;
   }, []);
+
+  useMemo(() => {
+    setRagValue(projectStatus?.rag);
+  }, [projectStatus]);
 
   const loading = useMemo(() => {
     return loadingProjectStatus && loadingEmployee;
@@ -39,19 +47,19 @@ const ProjectStatus = ({ project }:{project:Project|null}) => {
     return projectUrl && project ? `${projectUrl}/${project._idNative}` : null;
   }, [project, projectUrl]);
   const ragColor = useMemo(() => {
-    switch (projectStatus?.rag) {
+    switch (ragValue) {
       case GREEN: return 'success';
       case AMBER: return 'warning';
       case RED: return 'danger';
       default: return 'default';
     }
-  }, [projectStatus]);
+  }, [ragValue]);
   const rag = useMemo(() => {
-    return projectStatus?.rag ? projectStatus.rag.toLowerCase() : NA;
-  }, [projectStatus]);
+    return ragValue ? ragValue.toLowerCase() : NA;
+  }, [ragValue]);
   const reporter = useMemo(() => {
-    return employee?.fullName ? employee.fullName : 'unknown';
-  }, [employee]);
+    return employee?.fullName ? employee.fullName : projectStatus?.reporterId || 'unknown';
+  }, [employee, projectStatus]);
   const reporterLink = useMemo(() => {
     return employeeUrl && employee?._idNative ? `${employeeUrl}/${employee._idNative}` : null;
   }, [employeeUrl, employee]);
@@ -60,12 +68,35 @@ const ProjectStatus = ({ project }:{project:Project|null}) => {
     ? moment(projectStatus._createdAt?.toMillis()).format('MMM D YYYY') : 'none';
   }, [projectStatus]);
 
-  const toggleStatusVariant = (variant:TaVariant) => {
+  const toggleStatusVariant = async (event:FocusEvent, variant:TaVariant) => {
+    if ('bordered' === variant) {
+      const value:string|null = (event.target as HTMLInputElement).value || null;
+      if (value && projectStatus?.status !== value) {
+        const payload = {status: value};
+        await saveProjectStatus(projectStatus?._id, payload as ProjectStatus);
+      }
+    }
     setStatusVariant(variant);
   };
 
-  const toggleActionsVariant = (variant:TaVariant) => {
+  const toggleActionsVariant = async (event:FocusEvent, variant:TaVariant) => {
+    if ('bordered' === variant) {
+      const value:string|null = (event.target as HTMLInputElement).value || null;
+      if (value && projectStatus?.actions !== value) {
+        const payload = {actions: value};
+        await saveProjectStatus(projectStatus?._id, payload as ProjectStatus);
+      }
+    }
     setActionsVariant(variant);
+  };
+
+  const changeRag = async (key:string) => {
+    const newRag = key?.toUpperCase();
+    if (newRag !== ragValue) {
+      const payload = {rag: newRag};
+      await saveProjectStatus(projectStatus?._id, payload as ProjectStatus);
+      setRagValue(newRag as RagStatus);
+    }
   };
 
   return (
@@ -85,17 +116,13 @@ const ProjectStatus = ({ project }:{project:Project|null}) => {
         </div>
         {!loading && (
           <div className='pl-6'>
-            {!projectStatus && (
-              <div className='h-10'/>
-            )}
-            {projectStatus && (
               <div>
                 <div className='w-full bg-neutral-50 rounded-md p-4 mb-4'>
                   <Dropdown>
                     <DropdownTrigger>
                       <Button color={ragColor}><div className='capitalize mx-8'>{rag}</div></Button>
                     </DropdownTrigger>
-                    <DropdownMenu className='capitalize'>
+                    <DropdownMenu className='capitalize' onAction={(key) => changeRag(key as string)}>
                       <DropdownItem key='red' color='danger'>{RED.toLowerCase()}</DropdownItem>
                       <DropdownItem key='amber' color='warning'>{AMBER.toLowerCase()}</DropdownItem>
                       <DropdownItem key='green' color='success'>{GREEN.toLowerCase()}</DropdownItem>
@@ -106,16 +133,16 @@ const ProjectStatus = ({ project }:{project:Project|null}) => {
                   <Textarea
                     label={<div className='pb-2'>Status description:</div>}
                     variant={statusVariant}
-                    defaultValue={projectStatus.status}
-                    onFocus={() => toggleStatusVariant('faded')}
-                    onBlur={() => toggleStatusVariant('bordered')}
+                    defaultValue={projectStatus?.status || ''}
+                    onFocus={(event) => toggleStatusVariant(event, 'faded')}
+                    onBlur={(event) => toggleStatusVariant(event, 'bordered')}
                   />
                   <Textarea
                     label={<div className='pb-2'>Actions:</div>}
                     variant={actionsVariant}
-                    defaultValue={projectStatus.actions}
-                    onFocus={() => toggleActionsVariant('faded')}
-                    onBlur={() => toggleActionsVariant('bordered')}
+                    defaultValue={projectStatus?.actions || ''}
+                    onFocus={(event) => toggleActionsVariant(event, 'faded')}
+                    onBlur={(event) => toggleActionsVariant(event, 'bordered')}
                   />
                 </div>
                 <hr className='my-4'/>
@@ -134,7 +161,6 @@ const ProjectStatus = ({ project }:{project:Project|null}) => {
                   </div>
                 </div>
               </div>
-            )}
           </div>
         )}
         {loading && (
@@ -145,4 +171,4 @@ const ProjectStatus = ({ project }:{project:Project|null}) => {
   );
 }
 
-export default ProjectStatus;
+export default ProjectStatusPane;
