@@ -29,15 +29,17 @@ const useUser = () => {
       try {
         setLoading(true);
         const employees = await getDocuments(EMPLOYEES, [['email', '==', email]])
-        if (employees.length === 0) {
+        if (employees.length === 0 || !employees[0]?.email) {
           setUserId(`UNAUTHORIZED: ${userName} - ${email}`);
-        } else if (employees.length > 1) {
-          setError(
-            new Error(`More than one employee with ${email} email was fetched (${employees.length}): 
+        } else {
+          if (employees.length > 1) {
+            setError(
+              new Error(`More than one employee with ${email} email was fetched (${employees.length}): 
             ${employees.map((item) => item.id).reduce((id1, id2) => !id1 ?  id2 : id1 + ', ' + id2)}`)
-          );
+            );
+          }
+          setUserId(employees[0]._id);
         }
-        setUserId(employees[0].id);
       } catch (error: any) {
         console.error(error);
         setError(error);
