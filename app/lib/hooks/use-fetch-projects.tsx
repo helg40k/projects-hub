@@ -1,9 +1,12 @@
 import {useMemo, useEffect, useState} from 'react';
 import {DocumentData, OrderByDirection} from "firebase/firestore";
-import {PROJECTS} from '@/app/lib/constants/collections';
+import {PROJECTS, PROJECT_STATUSES} from '@/app/lib/constants/collections';
 import getCollectionData from '@/app/lib/services/firebase/helpers/getCollectionData';
+import getDocument from '@/app/lib/services/firebase/helpers/getDocument';
 import { Project } from "@/app/lib/constants/definitions";
 import {NONE_NAME, ASC_DIRECTION, DESC_DIRECTION} from "@/app/lib/constants/sorting";
+import {NA} from "@/app/lib/constants/rag-statuses";
+import {projects} from "@/app/lib/placeholder-data";
 
 // import { fetchProjects } from '@/app/lib/data';
 // import { projects } from "@/app/lib/placeholder-data";
@@ -29,11 +32,33 @@ const useFetchProjects = (sortBy:string|null): [Project[], boolean, Error|undefi
     const get = async () => {
       try {
         const data = await getCollectionData(PROJECTS, options as any);
+        await Promise.allSettled(data.map((project) => {
+            const defineStatus = async () => {
+              if(project.statusId) {
+                project.status = await readStatus(project.statusId);
+              } else {
+                project.status = NA;
+              }
+            }
+            return defineStatus();
+          })
+        );
         setState({ data, loading: false, error: null })
       } catch (error:any) {
         setState({ data: [], loading: false, error })
       }
-    }
+    };
+
+    const readStatus = async (statusId:string) => {
+      try {
+        const status = await getDocument(PROJECT_STATUSES, statusId);
+        return status?.rag || null;
+      } catch (error) {
+        console.error(`Cannot read the project status with ID: ${statusId}`, error);
+      }
+      return NA;
+    };
+
     get();
   }, [options]);
 

@@ -22,6 +22,7 @@ export interface Project extends RemotePresentable {
   customer?: string;
   upwork?: boolean;
   statusId?: string;
+  status?: string;
 }
 
 export interface Employee extends RemotePresentable {
