@@ -14,7 +14,6 @@ const useProjectStatusActions = (projectId:string|undefined) => {
   const saveProjectStatus = async (projectStatusId:string|undefined, projectStatus: ProjectStatus): Promise<void> => {
     try {
       setLoading(true);
-      console.log('Saving: ' + projectStatusId);
 
       if (projectId) {
         projectStatus.projectId = projectId;

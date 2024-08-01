@@ -3,15 +3,15 @@ import {collection, DocumentData, getDocs, WhereFilterOp, query, where, onSnapsh
 import firestore from '@/app/lib/services/firebase/utils/firestore';
 
 /**
- * It gets documents from a collection in Firestore used conditions
+ * Retrieves several (alone?) documents from a Firestore collection based on the provided parameters.
  * @param collectionPath - The path to the collection you want to get the document from.
- * @param whereCondition - The condition(s).
+ * @param filters - The condition(s).
  * @returns The data from the documents
  */
-const getDocuments = async (collectionPath:string, whereCondition: Array<[string, WhereFilterOp, any]>):Promise<DocumentData[]> => {
+const getDocuments = async (collectionPath:string, filters: Array<[string, WhereFilterOp, any]>):Promise<DocumentData[]> => {
   const queryData = query(
     collection(firestore, collectionPath),
-    ...(whereCondition?.map?.((rule) => where(...rule)) || []));
+    ...(filters?.map?.((rule) => where(...rule)) || []));
 
   const querySnapshot = await getDocs(queryData);
   return querySnapshot.docs.map((doc) => doc?.data());

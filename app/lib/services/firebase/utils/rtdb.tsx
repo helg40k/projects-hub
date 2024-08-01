@@ -1,6 +1,6 @@
 import { getDatabase } from 'firebase/database';
 import app from './app';
 
-const database = getDatabase(app);
+const rtdb = getDatabase(app);
 
-export default database;
+export default rtdb;

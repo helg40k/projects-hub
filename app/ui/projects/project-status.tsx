@@ -8,7 +8,7 @@ import useProjectStatusActions from "@/app/lib/hooks/use-project-status-actions"
 import {Project, ProjectStatus, RagStatus} from "@/app/lib/constants/definitions";
 import {NA, RED, GREEN, AMBER} from "@/app/lib/constants/rag-statuses";
 import moment from "moment";
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Textarea} from "@nextui-org/react";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, Textarea, Tooltip} from "@nextui-org/react";
 import { useMemo, useState, FocusEvent } from 'react';
 
 type TaVariant = 'faded' | 'bordered';
@@ -21,7 +21,7 @@ const ProjectStatusPane = ({ project }:{project:Project|null}) => {
   const [projectStatus, loadingProjectStatus, errorProjectStatus] = useGetProjectStatus(project?.statusId);
   const [employee, loadingEmployee, errorEmployee] = useGetEmployee(projectStatus?.reporterId);
 
-  const { saveProjectStatus } = useProjectStatusActions(project?._id);
+  const { saveProjectStatus, loading } = useProjectStatusActions(project?._id);
 
   const projectUrl = useMemo(() => {
     return process.env.NEXT_PUBLIC_PEOPLE_FORCE_PROJECT_URL;
@@ -34,7 +34,7 @@ const ProjectStatusPane = ({ project }:{project:Project|null}) => {
     setRagValue(projectStatus?.rag);
   }, [projectStatus]);
 
-  const loading = useMemo(() => {
+  const paneLoading = useMemo(() => {
     return loadingProjectStatus && loadingEmployee;
   }, [loadingProjectStatus, loadingEmployee]);
   const projectCode = useMemo(() => {
@@ -104,9 +104,11 @@ const ProjectStatusPane = ({ project }:{project:Project|null}) => {
       <div className='flex flex-row justify-start pb-4'>
         <p className='font-semibold text-xl pr-2'>{projectName}</p>
         {projectLink && (
-          <Link href={projectLink} target='_blank'>
-            <Image className='pb-1 w-auto h-auto' src='/peopleforce.png' width='15' height='10' alt='Peopleforce'/>
-          </Link>
+          <Tooltip content="Looking up the prodject on Peopleforce">
+            <Link href={projectLink} target='_blank'>
+              <Image className='pb-1 w-auto h-auto' src='/peopleforce.png' width='15' height='10' alt='Peopleforce'/>
+            </Link>
+          </Tooltip>
         )}
       </div>
       <div className='border rounded-md p-2'>
@@ -114,56 +116,60 @@ const ProjectStatusPane = ({ project }:{project:Project|null}) => {
           <ClipboardDocumentListIcon className='w-5'/>
           <p className='font-medium text-lg pl-1'>Health Status</p>
         </div>
-        {!loading && (
+        {!paneLoading && (
           <div className='pl-6'>
-              <div>
-                <div className='w-full bg-neutral-50 rounded-md p-4 mb-4'>
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button color={ragColor}><div className='capitalize mx-8'>{rag}</div></Button>
-                    </DropdownTrigger>
-                    <DropdownMenu className='capitalize' onAction={(key) => changeRag(key as string)}>
-                      <DropdownItem key='red' color='danger'>{RED.toLowerCase()}</DropdownItem>
-                      <DropdownItem key='amber' color='warning'>{AMBER.toLowerCase()}</DropdownItem>
-                      <DropdownItem key='green' color='success'>{GREEN.toLowerCase()}</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </div>
-                <div className='grid grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                  <Textarea
+            <div>
+              <div className='w-full bg-neutral-50 rounded-md p-4 mb-4'>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button isDisabled={loading} color={ragColor}><div className='capitalize mx-8'>{rag}</div></Button>
+                  </DropdownTrigger>
+                  <DropdownMenu className='capitalize' onAction={(key) => changeRag(key as string)}>
+                    <DropdownItem key='red' color='danger'>{RED.toLowerCase()}</DropdownItem>
+                    <DropdownItem key='amber' color='warning'>{AMBER.toLowerCase()}</DropdownItem>
+                    <DropdownItem key='green' color='success'>{GREEN.toLowerCase()}</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+              <div className='grid grid-rows-2 md:grid-rows-1 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                <Textarea
+                    isReadOnly={loading}
                     label={<div className='pb-2'>Status description:</div>}
                     variant={statusVariant}
                     defaultValue={projectStatus?.status || ''}
                     onFocus={(event) => toggleStatusVariant(event, 'faded')}
                     onBlur={(event) => toggleStatusVariant(event, 'bordered')}
-                  />
-                  <Textarea
+                />
+                <Textarea
+                    isReadOnly={loading}
                     label={<div className='pb-2'>Actions:</div>}
                     variant={actionsVariant}
                     defaultValue={projectStatus?.actions || ''}
                     onFocus={(event) => toggleActionsVariant(event, 'faded')}
                     onBlur={(event) => toggleActionsVariant(event, 'bordered')}
-                  />
-                </div>
-                <hr className='my-4'/>
-                <div className='flex flex-row justify-start pb-1'>
-                  <div className='flex flex-row pr-4 text-sm'>
-                    <p className='pr-1 text-gray-400'>Reported by:</p>
-                    {reporterLink && (
+                />
+              </div>
+              <hr className='my-4'/>
+              <div className='flex flex-row justify-start pb-1'>
+                <div className='flex flex-row pr-4 text-sm'>
+                  <p className='pr-1 text-gray-400'>Reported by:</p>
+                  {reporterLink && (
+                    <Tooltip content="Looking up the user on Peopleforce">
                       <Link href={reporterLink} className='pr-1 text-cyan-600 hover:text-cyan-500' target='_blank'>
                         {reporter}
                       </Link>
-                    )}
-                    {!reporterLink && (
-                      <p className='pr-1 text-cyan-600'>{reporter}</p>
-                    )}
-                    <p className='text-gray-400'>{projectStatusDate}</p>
-                  </div>
+                    </Tooltip>
+                  )}
+                  {!reporterLink && (
+                    <p className='pr-1 text-cyan-600'>{reporter}</p>
+                  )}
+                  <p className='text-gray-400'>{projectStatusDate}</p>
                 </div>
               </div>
+            </div>
           </div>
         )}
-        {loading && (
+        {paneLoading && (
           <Spin/>
         )}
       </div>
