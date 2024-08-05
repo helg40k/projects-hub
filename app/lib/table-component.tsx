@@ -6,6 +6,9 @@ import Spin from '@/app/lib/spin'
 import {Presentable} from "@/app/lib/constants/definitions";
 import {NONE_NAME, ASC_DIRECTION, DESC_DIRECTION} from "@/app/lib/constants/sorting";
 
+/**
+ * @deprecated
+ */
 const TableComponent = ({ headers, data, loading, onSort, onSelect }: { headers:string[], data:Presentable[], loading:boolean, onSort?:Function, onSelect?:Function }) => {
   const [sortBy, setSortBy] = useState('none-none')
 

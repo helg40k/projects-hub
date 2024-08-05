@@ -11,6 +11,9 @@ import {projects} from "@/app/lib/placeholder-data";
 // import { fetchProjects } from '@/app/lib/data';
 // import { projects } from "@/app/lib/placeholder-data";
 
+/**
+ * @deprecated
+ */
 const useFetchProjects = (sortBy:string|null): [Project[], boolean, Error|undefined] => {
   const [state, setState] = useState<{data:DocumentData[], loading:boolean, error:Error|null}>({ data: [], loading: true, error: null })
 
