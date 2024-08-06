@@ -53,7 +53,7 @@ const useLoadProjectList = () => {
       }
     },
     async sort({items, sortDescriptor}:{items:any[], sortDescriptor:SortDescriptor}) {
-      console.log(sortDescriptor);
+      // console.log(sortDescriptor);
       return {
         items: items.sort((a, b) => {
           const direction = sortDescriptor?.direction as string;
