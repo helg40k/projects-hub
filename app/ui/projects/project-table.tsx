@@ -91,6 +91,7 @@ const ProjectTable = () => {
             onClear={() => setFilterValue('')}
             onValueChange={onSearchChange}
         />
+        <div className='pb-1 text-sm text-neutral-600'>Total {filteredItems.length} projects found</div>
         <Table removeWrapper
                aria-label='Project Table'
                sortDescriptor={projects.sortDescriptor}
