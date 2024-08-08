@@ -7,7 +7,7 @@ export interface Presentable {
   _createdAt: firebase.firestore.Timestamp;
   _updatedAt: firebase.firestore.Timestamp;
   _createdBy: string;
-  _updatedBy?: string;
+  _updatedBy: string|null;
   _isUpdated: boolean;
 }
 
@@ -16,13 +16,14 @@ export interface RemotePresentable extends Presentable {
 }
 
 export interface Project extends RemotePresentable {
-  code?: string;
+  code: string|null;
   name: string;
-  manager?: string;
-  customer?: string;
-  upwork?: boolean;
-  statusId?: string;
-  status?: string;
+  manager: string|null;
+  customer: string|null;
+  upwork: boolean|null;
+  statusId: string|null;
+  status: string|null;
+  meta: Metadata|null;
 }
 
 export interface Employee extends RemotePresentable {
@@ -34,9 +35,47 @@ export interface Team extends Presentable {
 }
 
 export interface ProjectStatus extends Presentable {
-  actions?: string;
+  actions: string|null;
   projectId: string;
-  rag?: RagStatus;
+  rag: RagStatus|null;
   reporterId: string;
-  status?: string;
+  status: string|null;
+}
+
+export interface Metadata {
+  [key: string]: MetadataBlock;
+}
+
+export interface MetadataBlock {
+  name: string;
+  card: number;
+  order: number;
+  fields: {
+    [key: string]: MetadataField;
+  };
+}
+
+export interface MetadataField {
+  name: string;
+  value: string|number|boolean|null;
+  order: number;
+  type: string;
+  URL: string|null;
+}
+
+const test:Metadata = {
+  general: {
+    name: 'Test name',
+    card: 0,
+    order: 0,
+    fields: {
+      status: {
+        name: 'Test field name',
+        value: 'Active',
+        order: 0,
+        type: 'string',
+        URL: null
+      }
+    }
+  }
 }

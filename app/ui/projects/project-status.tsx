@@ -16,7 +16,7 @@ type TaVariant = 'faded' | 'bordered';
 const ProjectStatusPane = ({ project }:{project:Project|null}) => {
   const [statusVariant, setStatusVariant] = useState<TaVariant>('bordered');
   const [actionsVariant, setActionsVariant] = useState<TaVariant>('bordered');
-  const [ragValue, setRagValue] = useState<RagStatus|undefined>();
+  const [ragValue, setRagValue] = useState<RagStatus|undefined|null>();
 
   const [projectStatus, loadingProjectStatus, errorProjectStatus] = useGetProjectStatus(project?.statusId);
   const [employee, loadingEmployee, errorEmployee] = useGetEmployee(projectStatus?.reporterId);

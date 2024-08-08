@@ -4,7 +4,7 @@ import getDocument from '@/app/lib/services/firebase/helpers/getDocument';
 import {PROJECT_STATUSES} from "@/app/lib/constants/collections";
 import {DocumentData} from "firebase/firestore";
 
-const useGetProjectStatus = (projectStatusId:string|undefined):[ProjectStatus|null, boolean, Error|undefined] => {
+const useGetProjectStatus = (projectStatusId:string|undefined|null):[ProjectStatus|null, boolean, Error|undefined] => {
   const [state, setState] = useState<{data:DocumentData|null|undefined, loading:boolean, error:Error|null}>({ data: null, loading: true, error: null })
 
   useEffect(() => {

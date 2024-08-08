@@ -2,7 +2,7 @@
 
 import {Tabs, Tab, Card, CardBody} from "@nextui-org/react";
 import ProjectStatus from '@/app/ui/projects/project-status';
-import ProjectMetaInfoPane from '@/app/ui/projects/project-meta-info';
+import ProjectMetaInfoPane from '@/app/ui/projects/project-meta-info-pane';
 import useGetProject from "@/app/lib/hooks/use-get-project";
 import Spin from "@/app/lib/spin";
 
